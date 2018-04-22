@@ -36,6 +36,9 @@ class Server():
     def __init__(self, id):
         self.id = id
 
+    def get_id(self):
+        return self.id
+
 class Client(threading.Thread):
     def __init__(self, id, obj_pool):
         threading.Thread.__init__(self)
@@ -43,16 +46,17 @@ class Client(threading.Thread):
 
     def run(self):
         with object_pool.allocate_object() as server:
-            print('Client %d is using server %d' % (self.id, server))
+            print('Client %d is using server %d' % (self.id, server.get_id()))
             time.sleep(random())  # Pretend to work for a second
-            print('Client %d released server %d' % (self.id, server))
+            print('Client %d released server %d' % (self.id, server.get_id()))
 
 
 if __name__ == '__main__':
+    # Try to play around with the server v.s. client number.
     server_number = 5
     client_number = 10
 
-    object_pool = Object_Pool([server for server in range(server_number)])
+    object_pool = Object_Pool([Server(server_id) for server_id in range(server_number)])
 
     for i in range(client_number):
         client = Client(i, object_pool)
