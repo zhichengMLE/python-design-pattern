@@ -14,11 +14,23 @@ class Proxy:
         self._object_pool._release_object(self._object)
 
 class Object_Pool:
+    _instance = None
+
     def __init__(self, objects):
+        # Object Pool should be a singleton class
+        if Object_Pool._instance is not None:
+            print("This class has already created:", self.getInstance())
+
         self._list = []
         # Initialize the object pool
         for object in objects:
             self._list.append(object)
+
+    @classmethod
+    def getInstance(cls):
+        if cls._instance is None:
+            cls._instance = Object_Pool()
+        return cls._instance
 
     def allocate_object(self):
         # Wait until object resource is ready
@@ -31,6 +43,7 @@ class Object_Pool:
     def _release_object(self, object):
         # Put the object instance back to the queue.
         self._list.append(object)
+
 
 class Server():
     def __init__(self, id):
