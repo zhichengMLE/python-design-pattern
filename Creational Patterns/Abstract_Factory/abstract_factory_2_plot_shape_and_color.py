@@ -54,9 +54,6 @@ class Shape_With_Color_Factory(object):
 
     @staticmethod
     def plot_shape_with_color(shape, color):
-        if(shape == -1 or color == -1):
-            return -1
-
         plt.figure(figsize=(5, 5))
         plt.fill([s[0] for s in shape], [s[1] for s in shape], color=color)
         plt.gca().set_aspect('equal', adjustable='box')
