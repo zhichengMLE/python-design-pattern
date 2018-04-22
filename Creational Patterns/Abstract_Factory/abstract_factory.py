@@ -1,84 +1,55 @@
-class Circle():
+class Circle(object):
     def get_shape(self):
-        return ("Here is the circle shape")
+        return ("circle shape")
 
-class Square():
+class Square(object):
     def get_shape(self):
-        return ("Here is the square shape")
+        return ("square shape")
 
-class Rectangle():
+class Rectangle(object):
     def get_shape(self):
-        return ("Here is the rectangle shape")
+        return ("rectangle shape")
 
-class Red():
+class Red(object):
     def get_color(self):
-        return ("Here is the red color")
+        return ("red color")
 
-class Green():
+class Green(object):
     def get_color(self):
-        return ("Here is the green color")
+        return ("green color")
 
-class Blue():
+class Blue(object):
     def get_color(self):
-        return ("Here is the blue color")
+        return ("blue color")
 
-class Shape_Factory():
-    def __init__(self, shape):
-        self.shape = shape
+class Shape_Factory(object):
+    def __init__(self, shape_obj):
+        self.shape_obj = shape_obj
 
     def get_shape(self):
-        if(self.shape is not "Circle" and self.shape is not "Square" and self.shape is not "Rectangle"):
-            return -1
+        shape = self.shape_obj()
+        return shape.get_shape()
 
-        circle = Circle()
-        square = Square()
-        rectangle = Rectangle()
-
-        shapes = {
-            "Circle": circle,
-            "Square": square,
-            "Rectangle": rectangle,
-        }
-
-        return shapes[self.shape].get_shape()
-
-class Color_Factory():
-    def __init__(self, color):
-        self.color = color
+class Color_Factory(object):
+    def __init__(self, color_obj):
+        self.color_obj = color_obj
 
     def get_color(self):
-        if (self.color is not "Red" and self.color is not "Green" and self.color is not "Blue"):
-            return -1
+        color = self.color_obj()
+        return color.get_color()
 
-        red = Red()
-        green = Green()
-        blue = Blue()
+class Shape_With_Color_Factory(object):
+    def __init__(self, shape_factory, color_factory):
+        self.shape_factory = shape_factory
+        self.color_factory = color_factory
 
-        colors = {
-            "Red": red,
-            "Green": green,
-            "Blue": blue,
-        }
+    def get_shape_with_color(self):
+        shape_ret = self.shape_factory.get_shape()
+        color_ret = self.color_factory.get_color()
 
-        return colors[self.color].get_color()
-
-def shape_with_color_factory(shape="Circle", color="Red"):
-    shape_factory = Shape_Factory(shape)
-    color_factory = Color_Factory(color)
-
-    shape_ret = shape_factory.get_shape()
-    color_ret = color_factory.get_color()
-
-    if(shape_ret is -1 or color_ret is -1):
-        return ("Unsupport shape or color.")
-    else:
-        print(shape_ret)
-        print(color_ret)
-        return ("Here is %s in %s \n" %(shape, color))
+        return ("Here is %s in %s \n" %(shape_ret, color_ret))
 
 if __name__ == "__main__":
-    print(shape_with_color_factory("Circle", "Blue"))
-    print(shape_with_color_factory("Square", "Green"))
-    print(shape_with_color_factory("Rectangle", "Red"))
-
-    print(shape_with_color_factory("I want other shapes!", "I want other colors!"))
+    print(Shape_With_Color_Factory(Shape_Factory(Circle), Color_Factory(Blue)).get_shape_with_color())
+    print(Shape_With_Color_Factory(Shape_Factory(Square), Color_Factory(Green)).get_shape_with_color())
+    print(Shape_With_Color_Factory(Shape_Factory(Rectangle), Color_Factory(Red)).get_shape_with_color())

@@ -1,99 +1,73 @@
 import math
 import matplotlib.pyplot as plt
 
-class Circle():
+class Circle(object):
     def get_shape(self, r=1., n=100):
         return [(math.cos(2 * math.pi / n * x) * r, math.sin(2 * math.pi/ n * x) * r) for x in range(0, n+1)]
 
-class Square():
+class Square(object):
     def get_shape(self, width=10):
         return [(0,0), (width, 0), (width, width), (0, width), (0, 0)]
 
-class Rectangle():
+class Rectangle(object):
     def get_shape(self, width=10, height=20):
         return [(0,0), (height, 0), (height, width), (0, width), (0, 0)]
 
-class Red():
+class Red(object):
     def get_color(self):
         return ("r")
 
-class Green():
+class Green(object):
     def get_color(self):
         return ("g")
 
-class Blue():
+class Blue(object):
     def get_color(self):
         return ("b")
 
-class Shape_Factory():
-    def __init__(self, shape):
-        self.shape = shape
+class Shape_Factory(object):
+    def __init__(self, shape_obj):
+        self.shape_obj = shape_obj
 
     def get_shape(self):
-        if(self.shape is not "Circle" and self.shape is not "Square" and self.shape is not "Rectangle"):
-            return -1
+        shape = self.shape_obj()
+        return shape.get_shape()
 
-        circle = Circle()
-        square = Square()
-        rectangle = Rectangle()
-
-        shapes = {
-            "Circle": circle,
-            "Square": square,
-            "Rectangle": rectangle,
-        }
-
-        return shapes[self.shape].get_shape()
-
-class Color_Factory():
-    def __init__(self, color):
-        self.color = color
+class Color_Factory(object):
+    def __init__(self, color_obj):
+        self.color_obj = color_obj
 
     def get_color(self):
-        if (self.color is not "Red" and self.color is not "Green" and self.color is not "Blue"):
+        color = self.color_obj()
+        return color.get_color()
+
+class Shape_With_Color_Factory(object):
+    def __init__(self, shape_factory, color_factory):
+        self.shape_factory = shape_factory
+        self.color_factory = color_factory
+
+    def get_shape_with_color(self):
+        shape_ret = self.shape_factory.get_shape()
+        color_ret = self.color_factory.get_color()
+
+        return (shape_ret, color_ret)
+
+    @staticmethod
+    def plot_shape_with_color(shape, color):
+        if(shape == -1 or color == -1):
             return -1
 
-        red = Red()
-        green = Green()
-        blue = Blue()
-
-        colors = {
-            "Red": red,
-            "Green": green,
-            "Blue": blue,
-        }
-
-        return colors[self.color].get_color()
-
-def shape_with_color_factory(shape="Circle", color="Red"):
-    shape_factory = Shape_Factory(shape)
-    color_factory = Color_Factory(color)
-
-    shape_ret = shape_factory.get_shape()
-    color_ret = color_factory.get_color()
-
-    if(shape_ret == -1 or color_ret == -1):
-        print("Unsupport shape or color")
-
-    return (shape_ret, color_ret)
-
-def plot_shape_with_color(shape, color):
-    if(shape == -1 or color == -1):
-        return -1
-
-    plt.figure(figsize=(5, 5))
-    plt.fill([s[0] for s in shape], [s[1] for s in shape], color=color)
-    plt.show()
+        plt.figure(figsize=(5, 5))
+        plt.fill([s[0] for s in shape], [s[1] for s in shape], color=color)
+        plt.gca().set_aspect('equal', adjustable='box')
+        plt.show()
 
 if __name__ == "__main__":
-    shape, color = shape_with_color_factory("Circle", "Blue")
-    plot_shape_with_color(shape, color)
+    shape, color = Shape_With_Color_Factory(Shape_Factory(Circle), Color_Factory(Blue)).get_shape_with_color()
+    Shape_With_Color_Factory.plot_shape_with_color(shape, color)
 
-    shape, color = shape_with_color_factory("Square", "Green")
-    plot_shape_with_color(shape, color)
+    shape, color = Shape_With_Color_Factory(Shape_Factory(Square), Color_Factory(Green)).get_shape_with_color()
+    Shape_With_Color_Factory.plot_shape_with_color(shape, color)
 
-    shape, color = shape_with_color_factory("Rectangle", "Red")
-    plot_shape_with_color(shape, color)
-
-    shape, color = shape_with_color_factory("I want other shapes!", "I want other colors!")
-    plot_shape_with_color(shape, color)
+    shape, color = Shape_With_Color_Factory(Shape_Factory(Rectangle), Color_Factory(Red)).get_shape_with_color()
+    Shape_With_Color_Factory.plot_shape_with_color(shape, color)
