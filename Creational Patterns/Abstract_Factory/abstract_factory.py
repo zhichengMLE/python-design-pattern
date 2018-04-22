@@ -11,15 +11,15 @@ class Rectangle():
         return ("Here is the rectangle shape")
 
 class Red():
-    def get_red(self):
+    def get_color(self):
         return ("Here is the red color")
 
 class Green():
-    def get_green(self):
+    def get_color(self):
         return ("Here is the green color")
 
 class Blue():
-    def get_blue(self):
+    def get_color(self):
         return ("Here is the blue color")
 
 class Shape_Factory():
@@ -50,17 +50,17 @@ class Color_Factory():
         if (self.color is not "Red" and self.color is not "Green" and self.color is not "Blue"):
             return -1
 
-        red = Circle()
-        green = Square()
-        blue = Rectangle()
+        red = Red()
+        green = Green()
+        blue = Blue()
 
-        shapes = {
+        colors = {
             "Red": red,
             "Green": green,
             "Blue": blue,
         }
 
-        return shapes[self.color].get_shape()
+        return colors[self.color].get_color()
 
 def shape_with_color_factory(shape="Circle", color="Red"):
     shape_factory = Shape_Factory(shape)
@@ -72,7 +72,9 @@ def shape_with_color_factory(shape="Circle", color="Red"):
     if(shape_ret is -1 or color_ret is -1):
         return ("Unsupport shape or color.")
     else:
-        return ("Here is %s in %s" %(shape, color))
+        print(shape_ret)
+        print(color_ret)
+        return ("Here is %s in %s \n" %(shape, color))
 
 if __name__ == "__main__":
     print(shape_with_color_factory("Circle", "Blue"))
