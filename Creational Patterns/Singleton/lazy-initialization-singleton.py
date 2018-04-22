@@ -19,5 +19,8 @@ if __name__ == "__main__":
     print(SingletonTest.getInstance())
     # Try to create a new instance, but failed.
     s = SingletonTest()
+    s = SingletonTest()
+    s = SingletonTest()
+    s = SingletonTest()
     # All instances are pointing to the same object.
     print(SingletonTest.getInstance())
