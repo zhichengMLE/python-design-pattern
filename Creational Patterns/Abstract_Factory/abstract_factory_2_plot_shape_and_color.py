@@ -31,7 +31,7 @@ class Shape_Factory(object):
 
     def get_shape(self):
         shape = self.shape_obj()
-        return shape.get_shape()[1]
+        return shape.get_shape()
 
 class Color_Factory(object):
     def __init__(self, color_obj):
@@ -39,7 +39,7 @@ class Color_Factory(object):
 
     def get_color(self):
         color = self.color_obj()
-        return color.get_color()[1]
+        return color.get_color()
 
 class Shape_With_Color_Factory(object):
     def __init__(self, shape_factory, color_factory):
@@ -47,10 +47,10 @@ class Shape_With_Color_Factory(object):
         self.color_factory = color_factory
 
     def get_shape_with_color(self):
-        shape_ret = self.shape_factory.get_shape()
-        color_ret = self.color_factory.get_color()
+        msg_shape, shape_ret  = self.shape_factory.get_shape()
+        msg_color, color_ret  = self.color_factory.get_color()
 
-        return (shape_ret, color_ret)
+        return shape_ret, color_ret, "Here is %s in %s" %(msg_shape, msg_color)
 
     @staticmethod
     def plot_shape_with_color(shape, color):
@@ -60,11 +60,11 @@ class Shape_With_Color_Factory(object):
         plt.show()
 
 if __name__ == "__main__":
-    shape, color = Shape_With_Color_Factory(Shape_Factory(Circle), Color_Factory(Blue)).get_shape_with_color()
+    shape, color, msg = Shape_With_Color_Factory(Shape_Factory(Circle), Color_Factory(Blue)).get_shape_with_color()
     Shape_With_Color_Factory.plot_shape_with_color(shape, color)
 
-    shape, color = Shape_With_Color_Factory(Shape_Factory(Square), Color_Factory(Green)).get_shape_with_color()
+    shape, color, msg = Shape_With_Color_Factory(Shape_Factory(Square), Color_Factory(Green)).get_shape_with_color()
     Shape_With_Color_Factory.plot_shape_with_color(shape, color)
 
-    shape, color = Shape_With_Color_Factory(Shape_Factory(Rectangle), Color_Factory(Red)).get_shape_with_color()
+    shape, color, msg = Shape_With_Color_Factory(Shape_Factory(Rectangle), Color_Factory(Red)).get_shape_with_color()
     Shape_With_Color_Factory.plot_shape_with_color(shape, color)
