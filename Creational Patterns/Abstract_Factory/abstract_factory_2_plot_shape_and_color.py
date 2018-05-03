@@ -3,27 +3,27 @@ import matplotlib.pyplot as plt
 
 class Circle(object):
     def get_shape(self, r=1., n=100):
-        return [(math.cos(2 * math.pi / n * x) * r, math.sin(2 * math.pi/ n * x) * r) for x in range(0, n+1)]
+        return 'circle shape', [(math.cos(2 * math.pi / n * x) * r, math.sin(2 * math.pi/ n * x) * r) for x in range(0, n+1)]
 
 class Square(object):
     def get_shape(self, width=10):
-        return [(0,0), (width, 0), (width, width), (0, width), (0, 0)]
+        return 'square shape', [(0,0), (width, 0), (width, width), (0, width), (0, 0)]
 
 class Rectangle(object):
     def get_shape(self, width=10, height=20):
-        return [(0,0), (height, 0), (height, width), (0, width), (0, 0)]
+        return 'rectangle shape', [(0,0), (height, 0), (height, width), (0, width), (0, 0)]
 
 class Red(object):
     def get_color(self):
-        return ("r")
+        return "red color", 'r'
 
 class Green(object):
     def get_color(self):
-        return ("g")
+        return "green color", 'g'
 
 class Blue(object):
     def get_color(self):
-        return ("b")
+        return "blue color", 'b'
 
 class Shape_Factory(object):
     def __init__(self, shape_obj):
@@ -31,7 +31,7 @@ class Shape_Factory(object):
 
     def get_shape(self):
         shape = self.shape_obj()
-        return shape.get_shape()
+        return shape.get_shape()[1]
 
 class Color_Factory(object):
     def __init__(self, color_obj):
@@ -39,7 +39,7 @@ class Color_Factory(object):
 
     def get_color(self):
         color = self.color_obj()
-        return color.get_color()
+        return color.get_color()[1]
 
 class Shape_With_Color_Factory(object):
     def __init__(self, shape_factory, color_factory):
