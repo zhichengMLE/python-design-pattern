@@ -22,24 +22,34 @@ class Circle():
         plt.ylim([-5, 5])
         plt.gca().set_aspect('equal', adjustable='box')
         plt.show()
+        return True
 
+'''
+    Exercise to the student
+    - Implement the Command design pattern in following classes(i.e., Command()).
+    1. add_command(self, command)
+        1) You need to append the command into command_stack
 
+    2. execute_command(self)
+        1) Execute the command iteratively.
+        2) Return the execute status.
+
+    Note: remember to remove pass statement in the function after implement the code.
+'''
 class Command():
     def __init__(self):
         self.command_stack = []
+        self.command_execute_status = False
 
     def add_command(self, command):
-        self.command_stack.append(command)
+        pass
+        # self.command_stack.append(command)
 
     def execute_command(self):
-        for command in self.command_stack:
-            command()
-
-if __name__ == "__main__":
-    command = Command()
-    command.add_command(Circle(rad=1).plot_circle)
-    command.add_command(Circle(rad=2).plot_circle)
-    command.add_command(Circle(rad=3).plot_circle)
-    command.add_command(Circle(rad=4).plot_circle)
-    command.add_command(Circle(rad=5).plot_circle)
-    command.execute_command()
+        pass
+        # self.command_execute_status = True
+        # for command in self.command_stack:
+        #     execute_status = command()
+        #     if(execute_status == False):
+        #         self.command_execute_status = False
+        # return self.command_execute_status
