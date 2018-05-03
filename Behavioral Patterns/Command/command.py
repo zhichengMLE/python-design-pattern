@@ -14,17 +14,23 @@ class Circle():
     def plot_circle(self):
         print("Plot a circle with rad = %s" %(self.rad))
 
+class Command():
+    def __init__(self):
+        self.command_stack = []
+
+    def add_command(self, command):
+        self.command_stack.append(command)
+
+    def execute_command(self):
+        for command in self.command_stack:
+            command()
+
 if __name__ == "__main__":
-    command_stack = []
-
-    # commands are just pushed into the command stack
-    command_stack.append(Circle(rad=1))
-    command_stack.append(Circle(rad=2))
-    command_stack.append(Circle(rad=3))
-    command_stack.append(Circle(rad=4))
-    command_stack.append(Circle(rad=5))
-
-    for command in command_stack:
-        command.plot_circle()
-
+    command = Command()
+    command.add_command(Circle(rad=1).plot_circle)
+    command.add_command(Circle(rad=2).plot_circle)
+    command.add_command(Circle(rad=3).plot_circle)
+    command.add_command(Circle(rad=4).plot_circle)
+    command.add_command(Circle(rad=5).plot_circle)
+    command.execute_command()
 
